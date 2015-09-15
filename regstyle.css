@@ -1,0 +1,55 @@
+body{
+	
+}
+.form{
+	margin:auto;
+	width:80%;
+}
+.reg{
+	padding:1%;	
+}
+.field{
+	width:50%;
+	border-radius:10px;
+	background-color: #c2ddf6;
+}
+dd{
+	margin-left: 0;
+	padding:1%;
+}
+input{
+	width:auto;
+	border-radius:3px;
+	margin-right: 1%;
+}
+.address{
+	width:75%;
+}
+.submit{
+	display:block;
+	float: right;
+	clear:both;
+	margin-right:40%;
+	width: 100px;
+	height: 30px;
+	border-radius:5px;
+	border:thin #000000;
+	border-style:none;
+	background-color: #0505d0;
+	cursor: pointer; 
+}
+.submit:HOVER, .signin:HOVER {
+	color: white;
+}
+@media only screen and (max-width: 900px) {
+	.form{
+		width:80%;
+		margin:auto;
+	}
+}
+@media only screen and (max-width: 500px) {
+	.form{
+		width:auto;
+		margin:auto;
+	}
+}

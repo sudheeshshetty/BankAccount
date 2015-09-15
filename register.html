@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Register</title>
+	<link rel="stylesheet" href="regstyle.css" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="register.js" >
+		
+	</script>
+</head>
+<body>
+<form id="register" class="form" action="">
+	<h1 class="form reg" align="center">Register</h1>
+	<fieldset class="form field">
+		<dl>
+			<dt><label>Name</label>
+			<dd><input id="fname" name="fname" type="text" placeholder="Firstname" onblur="validate()" required="required">
+			<input type="text" id="lname" name="lname" placeholder="Surname" required="required" > </dd>
+			<dt><label>Gender</label></dt>
+			<dd><input type="radio" value="male" name="sex" id="sex">Male
+				<input type="radio" value="female" name="sex" id="sex">Female</dd>
+			<dt><label>Date of Birth</label></dt>
+			<dd><input id="dob" name="dob" type="date" required="required"></dd>
+			<dt><label>Email</label></dt>
+			<dd><input id="email" name="email" type="email" placeholder="example@domain.com" required="required"></dd>
+			<dt><label>Mobile</label></dt>
+			<dd><input id="mobile" name="mobile" type="tel" placeholder="countrycode+number" required="required"></dd>
+			<dt><label>Username</label></dt>
+			<dd><input type="text" id="uname" name="uname" placeholder="Username" required="required"></dd>
+			<dt><label>Address</label></dt>
+			<dd>Address Line1  <input type="text" class="address"></dd>
+			<dd>Address Line2  <input type="text" class="address"></dd>		
+		</dl>
+		<input type="submit" class="form submit" id="submit" name="submit">
+	</fieldset>
+</form>
+</body>
+</html>
