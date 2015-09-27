@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Credit</title>
+	<link rel="stylesheet" href="creditstyle.css" type="text/css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script type="text/javascript" src="credit.js" >
+		
+	</script>
+</head>
+<body>
+<form id="register" class="form" method="post" action="http://localhost:3000">
+<fieldset class="form field">
+	<dl>
+	<dt><label>Account Number</label></dt>
+	<dd><input id="account" name="account" type="number" onblur="getDetails"></dd>
+	<dt hidden="true" name="details"><label>Account Details</label></dt>
+	<dd hidden="true" name="value"><output hidden="true"></output>
+	<dt><label>Enter Amount</label>
+	<dd><input id="amount" name="amount" type="text"></dd>
+	</dl>
+	<input type="submit" class="submit" id="submit" name="submit" value="Submit">	
+</fieldset>
+</form>
+</body>
+</html>

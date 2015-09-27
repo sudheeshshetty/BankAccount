@@ -1,0 +1,42 @@
+.form{
+	margin:auto;
+	width:80%;
+}
+.field{
+	width:50%;
+	border-radius:10px;
+	background-color: #c2ddf6;
+}
+dd{
+	padding:1%;
+}
+input{
+	width:auto;
+	border-radius:3px;
+}
+.submit{
+	display:block;
+	clear:both;
+	height: 30px;
+	margin:auto;
+	border-radius:5px;
+	border:thin #000000;
+	border-style:none;
+	background-color: #0505d0;
+	cursor: pointer; 
+}
+.submit:HOVER{
+	color: white;
+}
+@media only screen and (max-width: 900px) {
+	.form{
+		width:80%;
+		margin:auto;
+	}
+}
+@media only screen and (max-width: 500px) {
+	.form{
+		width:auto;
+		margin:auto;
+	}
+}

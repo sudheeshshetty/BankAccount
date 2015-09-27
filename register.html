@@ -10,7 +10,7 @@
 	</script>
 </head>
 <body>
-<form id="register" class="form" action="">
+<form id="register" class="form" method="post" action="http://localhost:3000/account">
 	<h1 class="form reg" align="center">Register</h1>
 	<fieldset class="form field">
 		<dl>
@@ -29,10 +29,10 @@
 			<dt><label>Username</label></dt>
 			<dd><input type="text" id="uname" name="uname" placeholder="Username" required="required"></dd>
 			<dt><label>Address</label></dt>
-			<dd>Address Line1  <input type="text" class="address"></dd>
-			<dd>Address Line2  <input type="text" class="address"></dd>		
+			<dd>Address Line1  <input type="text" class="address" name="add1" id="add1"></dd>
+			<dd>Address Line2  <input type="text" class="address" name="add2" id="add2"></dd>		
 		</dl>
-		<input type="submit" class="form submit" id="submit" name="submit">
+		<input type="submit" class="form submit" id="submit" name="submit" value="Submit">
 	</fieldset>
 </form>
 </body>
