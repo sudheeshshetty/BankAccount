@@ -15,9 +15,9 @@ input{
 	border-radius:3px;
 }
 .submit{
-	display:block;
+	display:inline-block;
 	clear:both;
-	height: 30px;
+	height:30px;
 	margin:auto;
 	border-radius:5px;
 	border:thin #000000;

@@ -1,5 +1,5 @@
 function getDetails(){
-	var fname=document.getElementById("account").value;
+	var accountNumber=document.getElementById("account");
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState == XMLHttpRequest.DONE) {
@@ -16,5 +16,22 @@ function getDetails(){
         }
     }
 	xmlhttp.open("POST", "localhost:3000/credit", true);
-    xmlhttp.send();
+	xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send(JSON.stringify({"accountNumber":accountNumber.value}));
 }
+	/*$.ajax({
+	    url: 'localhost:3000/credit' + '?' + $.param({accountNumber: "1000000001"}),
+	    dataType: "jsonp",
+	    jsonpCallback: "_stdout",
+	    cache: false,
+	    timeout: 5000,
+	    success: function(data) {
+	       alert("success");
+	    },
+	    error: function(jqXHR, textStatus, errorThrown) {
+	    	alert("error");
+	        handleError(data);
+	    }
+	});*/
+
+//document.getElementById("account").onblur= getDetails();
