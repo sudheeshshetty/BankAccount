@@ -172,4 +172,11 @@ res.send("Not enough Balance");
 });
 });
 
+app.post('/delete', function(req,res){
+accounts.findByIdAndRemove({_id:req.body.account},function(err,docs){
+if(err){res.json(err);}
+else{res.redirect("./delete.html");}
+});
+});
+
 app.listen(3000);
