@@ -24,17 +24,22 @@ mongoose.connect('mongodb://localhost/bank');
 		balance:Number
 		
 });
-
+var transaction=mongoose.Schema({
+AccountNumber:Number,
+Status:String,
+_id:Number
+});
 
 
 var accounts = mongoose.model('accounts',Schema);
+var transactions = mongoose.model('transactions',transaction);
 
 app.post('/account', function(req,res){
 accounts.count({},function(err,c){
 if(err) res.json(err);
-else if(c==0) count=1;
+else if(c==0) count=0;
 else count=c;
-id=bank+count;
+id=bank+count+1;
 new accounts({
                 _id:id,
                 fname:req.body.fname,
@@ -50,25 +55,15 @@ new accounts({
         });
 });
 });
-//app.listen(3000);
-
-/*app.get('/view', function(req, res){
-	accounts.find({}, function(err, docs){
-		if(err) res.json(err);
-		else    res.render(docs);
-	});
-});*/
 
 app.post('/credit',function(req,res){
 accounts.find({_id:req.body.account},function(err,docs){
 if(err){ res.write("No Account with this number found");
-//console.log("if");
 }
 else{
 //res.setHeaders("Access-Control-Allow-Origin","localhost:3000");
 //res.setHeaders("Access-Control-Allow-Method","POST");
 //res.setHeaders("Access-Control-Allow-Origin","X-Requested-With,content-type");
-//console.log(docs[0]._id);
 res.writeHead(200,{"Content-Type":"text/html"});
 res.write('<html>'+
 '<head>'+
@@ -76,7 +71,7 @@ res.write('<html>'+
 '<link rel="stylesheet" href="creditstyle.css" type="text/css">'+
 '</head>'+
 '<body>'+
-'<form id="register" class="form" method="post" action="http://localhost:3000/creditconfirm">'+
+'<form id="register" class="form" method="post" action="http://104.215.190.249:3000/creditconfirm">'+
 '<fieldset class="form field">'+
 '<dl>'+
 '<dt><label>Account Number</label></dt>'+
@@ -87,7 +82,7 @@ res.write('<html>'+
 '<dd><input type="text" name="balance" id="balance" value="'+req.body.amount+'"readonly></dd>'+
 '</dl>'+
 '<input type="submit" class="submit" id="confirm" name="confirm" value="Confirm">'+
-'<input type="button" class="submit" id="cancel" name="cancel" value="Cancel">'+
+//'<input type="button" class="submit" id="cancel" name="cancel" value="Cancel">'+
 '</fieldset>'+
 '</form>'+
 '<body>'+
@@ -97,23 +92,62 @@ res.end();
 
 });
 });
-app.post('/creditconfirm',function(req,res){
-//console.log(req.body.accountNumber);
-accounts.find({_id:req.body.accountNumber},function(err,docs){
-if(err) res.json(err);
-else{
-var total=eval(parseInt(docs[0].balance)+parseInt(req.body.balance));
-accounts.findByIdAndUpdate({_id:req.body.accountNumber},
-{balance:total},
-function(err,docs){
-if(err){ res.json(err);}
-else
+app.post('/creditconfirm',function(req,res)
 {
-//res.write("Credited");
-res.redirect("./credit.html");
-}
-});}
-});
+	//console.log(req.body.accountNumber);
+	accounts.find({_id:req.body.accountNumber},function(err,docs)
+	{
+		if(err) res.json(err);
+		else
+		{
+			var total=eval(parseInt(docs[0].balance)+parseInt(req.body.balance));
+			accounts.findByIdAndUpdate({_id:req.body.accountNumber},
+			{balance:total},
+			function(err,docs)
+			{
+				if(err){ res.json(err);}
+				else
+				{
+					transactions.count({},function(err,c)
+					{
+						if(err) res.json(err);
+						else if(c==0) count=0;
+						else count=c;
+						transaction_id=count+1;
+
+						new transactions({
+							_id:transaction_id,
+							AccountNumber:req.body.accountNumber,
+							Status:"Credited"
+						}).save(function(err,doc)
+						{
+							if(err) res.json(err);
+						});						
+					});
+					console.log(transaction_id);
+					transactions.find({_id:transaction_id},function(err,docs)
+					{
+						if(err){res.json(err);}
+						else
+						{
+							//res.write("Credited");
+							res.write('<html>'+
+							'<head>'+
+							'<title>Verify</title>'+
+							'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/credit.html">'+
+							'</head>'+
+							'<body>'+
+							'<h4>Credited Successfully.Transaction id is'+docs[0]._id+' </h4>'+
+							'<p>redirecting...</p>'+
+							'<body>'+
+							'</html>');
+							res.end();
+						}
+					});
+				}
+			});
+		}
+	});
 });
 
 app.post('/debit',function(req,res){
@@ -127,7 +161,7 @@ res.write('<html>'+
 '<link rel="stylesheet" href="creditstyle.css" type="text/css">'+
 '</head>'+
 '<body>'+
-'<form id="register" class="form" method="post" action="http://localhost:3000/debitconfirm">'+
+'<form id="register" class="form" method="post" action="http://104.215.190.249:3000/debitconfirm">'+
 '<fieldset class="form field">'+
 '<dl>'+
 '<dt><label>Account Number</label></dt>'+
@@ -161,8 +195,32 @@ function(err,docs){
 if(err){ res.json(err);}
 else
 {
+transactions.count({},function(err,c){
+if(err) res.json(err);
+else if(c==0) count=1;
+else count=c;
+transaction_id=count+1;
+new transactions({
+                _id:transaction_id,
+                AccountNumber:req.body.accountNumber,
+				Status:"Debited"
+        }).save(function(err,doc){
+                if(err) res.json(err);
+        });
+});
 //res.write("Credited");
-res.redirect("./debit.html");
+res.write('<html>'+
+'<head>'+
+'<title>Verify</title>'+
+'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/debit.html">'+
+'</head>'+
+'<body>'+
+'<h4>Debited Successfully.Transaction id is'+transaction_id+'</h4>'+
+'<p>redirecting...</p>'+
+'<body>'+
+'</html>'
+);
+res.end();
 }
 });}
 else{
@@ -175,7 +233,18 @@ res.send("Not enough Balance");
 app.post('/delete', function(req,res){
 accounts.findByIdAndRemove({_id:req.body.account},function(err,docs){
 if(err){res.json(err);}
-else{res.redirect("./delete.html");}
+else{res.write('<html>'+
+'<head>'+
+'<title>Verify</title>'+
+'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/delete.html">'+
+'</head>'+
+'<body>'+
+'<h4>Deleted Successfully.</h4>'+
+'<p>redirecting...</p>'+
+'<body>'+
+'</html>'
+);
+res.end();}
 });
 });
 
