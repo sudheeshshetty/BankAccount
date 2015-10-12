@@ -46,10 +46,18 @@ input{
 		width:80%;
 		margin:auto;
 	}
+	.submit
+	{
+		width:100px;
+	}
 }
 @media only screen and (max-width: 500px) {
 	.form{
 		width:auto;
 		margin:auto;
+	}
+	.submit
+	{
+		width:100px;
 	}
 }

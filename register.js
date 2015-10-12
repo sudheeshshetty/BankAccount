@@ -1,7 +1,3 @@
-var validate=function() {
-	var fname=document.getElementById("fname").value;
-	if(!(fname.match(/[a-z]/i))){
-		document.getElementById('spanfname').innerHTML="*Insert proper name*";
-		return false;
-	}
+function register(){
+document.getElementById("section").innerHTML='<object type="text/html" data="register.html" ></object>';
 }

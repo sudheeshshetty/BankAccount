@@ -1,0 +1,141 @@
+@CHARSET "UTF-8";
+body{
+	background-color: #edccf4;
+}
+
+h1, h2{
+	color:#777;	
+}
+#wrapper{
+	width: 960px;
+	margin-right: auto;
+	margin-left: auto;
+	font-family: arial;
+	font-size: 14px;
+}
+header{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	height: 260px;	
+	border-radius:5px;
+	background-color: #DC82FA;
+}
+header img{
+	margin-left:10px;
+	float:left;
+}
+header h1{
+	float:right;
+	margin-right: 270px;
+	margin-top:100px;
+	font-size: 30px;
+	color: black;
+}
+nav.options{
+	background-color: #ac56c8;
+	display:block;
+	overflow: hidden;
+	border-radius:5px;
+}
+nav div.navig ul{
+	list-style: none;
+	float: right;
+	margin-right: 20px;
+}
+nav div.navig ul li{
+	display:inline;
+	margin-left:20px;
+}
+nav div.navig a{
+	color:#777;
+	text-decoration: none;
+	color: black;
+}
+nav div.navig a:hover{
+	color:#222;
+	border-radius:5px;
+	background-color: #5a0094;
+}
+section{
+	float:right;
+	padding:15px;
+	width: 603px;
+	height:550px;
+	margin-top:10px;
+	background-color: #b59cf1;
+	border-radius: 7px;
+	border: 1px solid #DEDCD9;;
+}
+/*section classes*/
+object{
+	width: 100%;
+	height:100%;
+}
+
+aside{
+	float:left;
+	padding:15px;
+	width: 285px;
+	
+	margin-top:10px;
+	background-color: #b59cf1;
+	border-radius: 7px;
+	border: 1px solid #DEDCD9;
+	
+}
+aside div.aside ul{
+	list-style: none;
+	width: auto;
+	margin-right: auto;
+	margin-left: auto;
+}
+aside div.aside li{
+	width: auto;
+	height:25px;
+}
+aside div.aside a{
+	color:#777;
+	text-decoration: none;
+	width: auto;
+	color: black;
+}
+aside div.aside li:HOVER{
+	color:#222;
+	border-radius:3px;
+	width: auto;
+	background-color: #5a0094;
+	cursor: pointer;
+}
+aside img{
+	margin-top:10px;
+	margin-bottom: 10px;
+	position: relative;
+	left: 30px;
+}
+aside a{
+	position: relative;
+	left: 40px;
+}
+
+footer{
+	clear:both;
+	padding:25px;
+	background-color: #DC82FA;
+	border-radius:5px;
+	border: 1px solid #DEDCD9;
+}
+footer ul{
+	list-style: none;
+	margin:0;
+	padding:0;
+	float:left;
+}
+footer ul li{
+	margin-right: 15px;
+	display: inline;
+}
+footer p{
+	float: right;
+	margin:0;
+	padding:0;
+}
