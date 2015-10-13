@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app=express();
 var bank=1000000000;
 var id,count;
+var date;
 app.use( bodyParser.json() );
 app.use(express.static('./')); 
 app.use(bodyParser.urlencoded({     
@@ -19,9 +20,12 @@ mongoose.connect('mongodb://localhost/bank');
 		lname:String,
 		sex:String,
 		dob:Date,
+		creationDate:Date,
 		email:String,
 		mobile:Number,
-		balance:Number
+		balance:Number,
+		accountType:String,
+		address:String
 		
 });
 var transaction=mongoose.Schema({
@@ -30,28 +34,39 @@ Status:String,
 _id:Number
 });
 
-
 var accounts = mongoose.model('accounts',Schema);
 var transactions = mongoose.model('transactions',transaction);
 
+app.get('/',function(req,res){
+res.redirect("./Main.html");
+});
+
 app.post('/account', function(req,res){
+console.log(req.body.fname);
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
 accounts.count({},function(err,c){
 if(err) res.json(err);
 else if(c==0) count=0;
 else count=c;
 id=bank+count+1;
+date=new Date();
+console.log(req.body);
 new accounts({
                 _id:id,
                 fname:req.body.fname,
                 lname:req.body.lname,
                 sex: req.body.sex,
                 dob : req.body.dob,
+				creationDate:date,
                 email : req.body.email,
                 mobile:req.body.mobile,
-                balance:req.body.balance
+                balance:req.body.balance,
+				accountType:req.body.type,
+				address:req.body.address
         }).save(function(err,doc){
                 if(err) res.json(err);
-                else res.send('successfully inserted');
+                else res.json({accountNumber:id});
         });
 });
 });
@@ -122,27 +137,18 @@ app.post('/creditconfirm',function(req,res)
 						}).save(function(err,doc)
 						{
 							if(err) res.json(err);
-						});						
-					});
-					console.log(transaction_id);
-					transactions.find({_id:transaction_id},function(err,docs)
-					{
-						if(err){res.json(err);}
-						else
-						{
-							//res.write("Credited");
-							res.write('<html>'+
+						});	
+						res.write('<html>'+
 							'<head>'+
 							'<title>Verify</title>'+
-							'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/credit.html">'+
+							'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/Main.html">'+
 							'</head>'+
 							'<body>'+
-							'<h4>Credited Successfully.Transaction id is'+docs[0]._id+' </h4>'+
+							'<h4>Credited Successfully.Transaction id is'+transaction_id+' </h4>'+
 							'<p>redirecting...</p>'+
 							'<body>'+
 							'</html>');
-							res.end();
-						}
+						res.end();
 					});
 				}
 			});
@@ -207,12 +213,10 @@ new transactions({
         }).save(function(err,doc){
                 if(err) res.json(err);
         });
-});
-//res.write("Credited");
 res.write('<html>'+
 '<head>'+
 '<title>Verify</title>'+
-'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/debit.html">'+
+'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/Main.html">'+
 '</head>'+
 '<body>'+
 '<h4>Debited Successfully.Transaction id is'+transaction_id+'</h4>'+
@@ -221,6 +225,8 @@ res.write('<html>'+
 '</html>'
 );
 res.end();
+});
+//res.write("Credited");
 }
 });}
 else{
@@ -231,12 +237,41 @@ res.send("Not enough Balance");
 });
 
 app.post('/delete', function(req,res){
+accounts.find({_id:req.body.account},function(err,docs){
+if(err){res.send("No account with this number found");}
+else{
+res.write(
+'<html>'+
+'<head>'+
+'<title>deleteconfirm</title>'+
+'<link rel="stylesheet" href="creditstyle.css" type="text/css">'+
+'</head>'+
+'<body>'+
+'<form id="register" class="form" method="post" action="http://104.215.190.249:3000/deleteconfirm">'+
+'<fieldset class="form field">'+
+'<dl>'+
+'<dt><label>Account Number</label></dt>'+
+'<dd><input type="text" name="account" id="account" value="'+docs[0]._id+'"readonly></dd>'+
+'<dt><label>Name</label></dt>'+
+'<dd><input type="text" name="name" id="name" value="'+docs[0].fname+'  '+docs[0].lname+'"readonly></dd>'+
+'</dl>'+
+'<input type="submit" name="submit" class="submit" value="confirm">'+
+'</fieldset>'+
+'</form>'+
+'</body>'+
+'</html>')
+res.end();
+}
+});
+});
+
+app.post('/deleteconfirm',function(req,res){
 accounts.findByIdAndRemove({_id:req.body.account},function(err,docs){
 if(err){res.json(err);}
 else{res.write('<html>'+
 '<head>'+
 '<title>Verify</title>'+
-'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/delete.html">'+
+'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/Main.html">'+
 '</head>'+
 '<body>'+
 '<h4>Deleted Successfully.</h4>'+
@@ -244,7 +279,8 @@ else{res.write('<html>'+
 '<body>'+
 '</html>'
 );
-res.end();}
+res.end();
+}
 });
 });
 
