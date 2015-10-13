@@ -42,7 +42,6 @@ res.redirect("./Main.html");
 });
 
 app.post('/account', function(req,res){
-console.log(req.body.fname);
 res.setHeader('Access-Control-Allow-Origin', '*');
 res.setHeader("Access-Control-Allow-Method","'GET, POST, OPTIONS, PUT, PATCH, DELETE'");
 accounts.count({},function(err,c){
@@ -51,7 +50,6 @@ else if(c==0) count=0;
 else count=c;
 id=bank+count+1;
 date=new Date();
-console.log(req.body);
 new accounts({
                 _id:id,
                 fname:req.body.fname,
@@ -71,6 +69,14 @@ new accounts({
 });
 });
 
+app.get('/list',function(req,res){
+res.setHeader("Access-Control-Allow-Origin","*");
+accounts.find({},function(err,docs){
+if(err){res.json(err);}
+else{res.json(docs);}
+});
+});
+
 app.post('/credit',function(req,res){
 accounts.find({_id:req.body.account},function(err,docs){
 if(err){ res.write("No Account with this number found");
@@ -86,7 +92,7 @@ res.write('<html>'+
 '<link rel="stylesheet" href="creditstyle.css" type="text/css">'+
 '</head>'+
 '<body>'+
-'<form id="register" class="form" method="post" action="http://104.215.190.249:3000/creditconfirm">'+
+'<form id="register" class="form" method="post" action="http://localhost:3000/creditconfirm">'+
 '<fieldset class="form field">'+
 '<dl>'+
 '<dt><label>Account Number</label></dt>'+
@@ -141,7 +147,7 @@ app.post('/creditconfirm',function(req,res)
 						res.write('<html>'+
 							'<head>'+
 							'<title>Verify</title>'+
-							'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/Main.html">'+
+							'<meta http-equiv="refresh" content="2; url=http://localhost:3000/Main.html">'+
 							'</head>'+
 							'<body>'+
 							'<h4>Credited Successfully.Transaction id is'+transaction_id+' </h4>'+
@@ -167,7 +173,7 @@ res.write('<html>'+
 '<link rel="stylesheet" href="creditstyle.css" type="text/css">'+
 '</head>'+
 '<body>'+
-'<form id="register" class="form" method="post" action="http://104.215.190.249:3000/debitconfirm">'+
+'<form id="register" class="form" method="post" action="http://localhost:3000/debitconfirm">'+
 '<fieldset class="form field">'+
 '<dl>'+
 '<dt><label>Account Number</label></dt>'+
@@ -216,7 +222,7 @@ new transactions({
 res.write('<html>'+
 '<head>'+
 '<title>Verify</title>'+
-'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/Main.html">'+
+'<meta http-equiv="refresh" content="2; url=http://localhost:3000/Main.html">'+
 '</head>'+
 '<body>'+
 '<h4>Debited Successfully.Transaction id is'+transaction_id+'</h4>'+
@@ -247,7 +253,7 @@ res.write(
 '<link rel="stylesheet" href="creditstyle.css" type="text/css">'+
 '</head>'+
 '<body>'+
-'<form id="register" class="form" method="post" action="http://104.215.190.249:3000/deleteconfirm">'+
+'<form id="register" class="form" method="post" action="http://localhost:3000/deleteconfirm">'+
 '<fieldset class="form field">'+
 '<dl>'+
 '<dt><label>Account Number</label></dt>'+
@@ -271,7 +277,7 @@ if(err){res.json(err);}
 else{res.write('<html>'+
 '<head>'+
 '<title>Verify</title>'+
-'<meta http-equiv="refresh" content="2; url=http://104.215.190.249:3000/Main.html">'+
+'<meta http-equiv="refresh" content="2; url=http://localhost:3000/Main.html">'+
 '</head>'+
 '<body>'+
 '<h4>Deleted Successfully.</h4>'+

@@ -68,6 +68,7 @@ section{
 }
 /*section classes*/
 object{
+	clear:both;
 	width: 100%;
 	height:100%;
 }
