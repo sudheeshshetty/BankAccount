@@ -29,6 +29,7 @@ mongoose.connect('mongodb://localhost/bank');
 		
 });
 var transaction=mongoose.Schema({
+_id:Number,
 AccountNumber:Number,
 transactionDate:Date,
 Status:String
@@ -78,7 +79,7 @@ else{res.json(docs);}
 });
 });
 
-app.get('/statement',function(req,res){
+app.post('/statement',function(req,res){
 res.setHeader("Access-Control-Allow-Origin","*");
 accounts.find({AccountNumber:req.body.account},function(err,docs){
 if(err){res.json(err);}
@@ -87,13 +88,10 @@ else {res.json(docs);}
 });
 
 app.post('/credit',function(req,res){
-console.log(req.body);
 res.setHeader("Access-Control-Allow-Origin","*");
 	accounts.find({_id:req.body.account},function(err,docs){
 		if(err){ res.write("No Account with this number found");}
 		else{
-		console.log(parseInt(docs[0].balance));
-		console.log(parseInt(req.body.balance));
 			var total=eval(parseInt(docs[0].balance)+parseInt(req.body.balance));
 			accounts.findByIdAndUpdate({_id:req.body.account},
 			{balance:total},
